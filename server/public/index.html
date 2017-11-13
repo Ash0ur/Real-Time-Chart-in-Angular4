@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title></title>
+	<script src="https://code.jquery.com/jquery-3.2.1.min.js"></script>
+	<script src="/socket.io/socket.io.js"></script>
+<script>
+  var socket = io.connect();
+  socket.on('ChartsData', function (data) {
+	  console.log(data);
+	 (function($){
+		 	
+		     $('.well').append('<p>'+(JSON.stringify(data.machines,null,2))+'</p>');
+		    
+		    $('.stop button').on('click',function(){
+		    	socket.emit('stopSending');
+		    })
+		    $('.resume button').on('click',function(){
+		    	socket.emit('resumeSending');
+            })
+            $('.clear').on('click',function(){
+                $('.well').empty();
+            })
+	 })(jQuery);    
+
+
+  });
+</script>
+
+<style type="text/css">
+	.stop,.resume,.clear{position:fixed;right:100px;top:40px;}
+	.resume{right:40px;}
+    .clear{right:150px;}
+</style>
+</head>
+<body>
+<div class="stop">
+	<button>Stop</button>
+</div>
+<div class="resume">
+	<button>Resume</button>
+</div>
+<div class="clear">
+	<button>clear</button>
+</div>
+<div class="well">
+	
+</div>
+</body>
+</html>
+
